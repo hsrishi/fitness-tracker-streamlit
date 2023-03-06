@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas as pd
 
 
@@ -18,3 +19,27 @@ def load_data():
 	df['Month-Year'] = pd.to_datetime(df['Date']).dt.to_period('M').astype('str')
 
 	return df
+
+def make_grid(n_cols, n_rows):
+	"""
+	Make a generic grid (n_cols x n_rows) via a streamlit container
+
+	Parameters
+	----------
+	n_cols : int
+	    Number of columns in grid
+	n_rows : int
+	    Number of rows in grid
+
+	Returns
+	-------
+	grid : streamlit container
+	"""
+
+    grid = [0]*n_cols
+
+    for i in range(n_cols):
+        with st.container():
+            grid[i] = st.columns(n_rows)
+
+    return grid
