@@ -57,15 +57,19 @@ col1, col2 = st.columns(2, gap='small')
 col3, col4 = st.columns(2, gap='small')
 
 with col1:
-	fig_weight_over_time
+	st.plotly_chart(fig_weight_over_time, use_container_width
+		=True)
 
 with col2:
-	fig_steps_over_time
+	st.plotly_chart(fig_calories_over_time, use_container_width
+		=True)
 
 with col3:
-	fig_steps_over_time
+	st.plotly_chart(fig_steps_over_time, use_container_width
+		=True)
 
 with col4:
-	fig_workouts_over_time
+	st.plotly_chart(fig_workouts_over_time, use_container_width
+		=True)
 
 st.dataframe(df_popular_exercises.reset_index(drop=True), use_container_width=True)
