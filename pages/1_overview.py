@@ -5,7 +5,7 @@ import plotly.express as px
 import plotly.io as pio
 import collections
 
-from utils.misc import load_data
+from utils.misc import load_data, make_grid
 
 
 # Prepare data
@@ -25,31 +25,47 @@ st.sidebar.header("Overview")
 # Figures
 # Weight over time
 fig_weight_over_time = px.line(
-	data_frame=df.dropna(subset=['Date', 'Weight'], how='any'), 
+	data_frame=df.dropna(subset=['Date', 'Weight'], how='any'),
 	x='Date',
-	y='Weight'  # , 'Calories'
+	y='Weight',
+	width=350,
 	).update_traces(mode='lines+markers')
 
 fig_calories_over_time = px.line(
 	data_frame=df.dropna(subset=['Date', 'Weight'], how='any'), 
 	x='Date',
-	y='Calories'  # , 'Calories'
+	y='Calories',
+	width=350
 	).update_traces(mode='lines+markers')
 
 fig_steps_over_time = px.line(
 	data_frame=df.dropna(subset=['Date', 'Weight'], how='any'), 
 	x='Date',
-	y='Steps'  # , 'Calories'
+	y='Steps',
+	width=350
 	).update_traces(mode='lines+markers')
 
 fig_workouts_over_time = px.bar(
 	data_frame=df.groupby('Date').agg({'Workout':'count'}).reset_index(),
 	x='Date',
-	y='Workout'
+	y='Workout',
+	width=350
 	)
 
-fig_weight_over_time
-fig_calories_over_time
-fig_steps_over_time
-fig_workouts_over_time
+
+col1, col2 = st.columns(2, gap='small')
+col3, col4 = st.columns(2, gap='small')
+
+with col1:
+	fig_weight_over_time
+
+with col2:
+	fig_steps_over_time
+
+with col3:
+	fig_steps_over_time
+
+with col4:
+	fig_workouts_over_time
+
 df_popular_exercises
