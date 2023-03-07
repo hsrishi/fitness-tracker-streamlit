@@ -36,10 +36,10 @@ def make_grid(n_cols, n_rows):
 	grid : streamlit container
 	"""
 
-    grid = [0]*n_cols
+	grid = [0]*n_cols
 
-    for i in range(n_cols):
-        with st.container():
-            grid[i] = st.columns(n_rows)
+	for i in range(n_cols):
+		with st.container():
+			grid[i] = st.columns(n_rows)
 
-    return grid
+	return grid
