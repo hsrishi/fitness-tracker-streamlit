@@ -68,4 +68,4 @@ with col3:
 with col4:
 	fig_workouts_over_time
 
-df_popular_exercises
+st.dataframe(df_popular_exercises.reset_index(drop=True), use_container_width=True)
