@@ -22,6 +22,10 @@ st.set_page_config(page_title="Overview")
 st.markdown("# Overview")
 st.sidebar.header("Overview")
 
+time_selector = st.radio(
+	label='Time Range Selector', options=['Day', 'Week', 'Month'], horizontal=True
+	)
+
 # Figures
 # Weight over time
 fig_weight_over_time = px.line(
