@@ -11,4 +11,4 @@ st.markdown("# Raw Data")
 st.sidebar.header("Raw Data")
 
 df = load_data()
-df
+st.dataframe(df, use_container_width=True)
