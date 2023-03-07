@@ -43,7 +43,7 @@ df_popular_exercises = pd.DataFrame.from_dict(counts_exercises, orient='index').
 if 'time_selector' not in st.session_state:
 	st.session_state.time_selector = 'Day'
 
-st.set_page_config(page_title="Overview")
+st.set_page_config(page_title='Overview', layout='wide')
 
 st.markdown("# Overview")
 st.sidebar.header("Overview")
