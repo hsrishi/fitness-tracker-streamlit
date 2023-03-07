@@ -50,6 +50,7 @@ st.sidebar.header("Overview")
 
 time_selector = st.radio(
 	label='Time Range Selector', options=['Day', 'Week', 'Month'], horizontal=True,
+	label_visibility='hidden'
 	)
 update_time = st.button('Update', on_click=update_time_selector,
 	kwargs={'time_selector':time_selector}
