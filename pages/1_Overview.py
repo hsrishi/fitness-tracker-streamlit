@@ -16,7 +16,9 @@ def update_time_selector(time_selector):
 def generate_plots(time_selector):
 	dict_map_selected_time = {'Day': 'Date', 'Week': 'Week', 'Month': 'Month-Year'}
 	selected_time = dict_map_selected_time[time_selector]
-	df_plot = df.groupby(selected_time).agg(
+
+	_df = df[(df['Date'] >= np.datetime64(date_start_input)) & (df['Date'] <= np.datetime64(date_end_input))]
+	df_plot = _df.groupby(selected_time).agg(
 		{
 		'Calories':'mean', 
 		'Weight':'mean', 
