@@ -1,6 +1,7 @@
 # Imports
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.io as pio
 import collections
@@ -52,14 +53,27 @@ st.set_page_config(page_title='Overview', layout='wide')
 st.markdown("# Overview")
 st.sidebar.header("Overview")
 
-time_selector = st.radio(
-	label='Time Range Selector', options=['Day', 'Week', 'Month'], horizontal=True,
-	label_visibility='hidden'
-	)
+## widgets
+colA, colB, colC = st.columns(3, gap='large')
+with colA:
+	time_selector = st.radio(
+		label='Time Range Selector', options=['Day', 'Week', 'Month'], horizontal=True,
+		label_visibility='hidden'
+		)
+with colB:
+	date_start_input = st.date_input(
+		label='Start Date', value=pd.to_datetime(df['Date']).min(), min_value=pd.to_datetime(df['Date']).min(), max_value=pd.to_datetime(df['Date']).max()
+		)
+with colC:
+	date_end_input = st.date_input(
+		label='End Date', value=pd.to_datetime(df['Date']).max(), min_value=pd.to_datetime(df['Date']).min(), max_value=pd.to_datetime(df['Date']).max()
+		)
 update_time = st.button('Update', on_click=update_time_selector,
 	kwargs={'time_selector':time_selector}
     )
 
+
+## figures
 fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time = generate_plots(st.session_state.time_selector)
 
 col1, col2 = st.columns(2, gap='small')
