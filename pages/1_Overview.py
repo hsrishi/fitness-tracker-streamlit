@@ -28,6 +28,10 @@ def generate_plots(time_selector):
 	fig_steps_over_time = px.line(data_frame=df_plot.dropna(subset=[selected_time, 'Steps'], how='any'), x=selected_time, y='Steps').update_traces(mode='lines+markers')
 	fig_workouts_over_time = px.bar(data_frame=df_plot.dropna(subset=[selected_time, 'Workout'], how='any'), x=selected_time, y='Workout')
 
+	for fig in [fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time]:
+		fig.update_xaxes(showline=True, linewidth=2, linecolor='lightgray', mirror=True)
+		fig.update_yaxes(showline=True, linewidth=2, linecolor='lightgray', mirror=True)
+
 	return fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time 
 
 
