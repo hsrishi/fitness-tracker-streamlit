@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+from datetime import datetime
+
 
 def load_data():
 	"""
@@ -15,8 +17,10 @@ def load_data():
 	"""
 	df = pd.read_csv('data/fitness_data.csv')
 	df = df.drop(columns=[c for c in df.columns if c.startswith('Unnamed: ')])  # remove empty non-data columns
+	df['Date'] = pd.to_datetime(df['Date'], format="%Y/%m/%d") # .astype(datetime)
 	df['Week'] = df['Week'].fillna(method='ffill')
-	df['Month-Year'] = pd.to_datetime(df['Date']).dt.to_period('M').astype('str')
+	df['Month-Year'] = df['Date'].dt.to_period('M').astype('str')
+	# df['Month-Year'] = pd.to_datetime(df['Date']).dt.to_period('M').astype('str')
 
 	return df
 
