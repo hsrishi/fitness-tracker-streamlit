@@ -16,7 +16,7 @@ def get_summary_df():
     df_s = df.groupby(['Week']).agg(**{
         'Weight': pd.NamedAgg(column='Weight', aggfunc='mean'),
         'Calories': pd.NamedAgg(column='Calories', aggfunc='mean'),
-        'Protein': pd.NamedAgg(column='Calories', aggfunc='mean'),
+        'Protein': pd.NamedAgg(column='Protein (g)', aggfunc='mean'),
         'Steps': pd.NamedAgg(column='Steps', aggfunc='mean'),
         'Steps (tot)': pd.NamedAgg(column='Steps', aggfunc='sum'),
         'Lifting Days': pd.NamedAgg(column='Workout', aggfunc='count'),
@@ -25,8 +25,9 @@ def get_summary_df():
         )
     df_s.index.name = 'Week'
     df_s = df_s.rename(columns={'Weight':'Weight (lb)', 'Protein':'Protein (g)'})
-    df_s = df_s.round(1)  # .reset_index(drop=False)
-    df_s['Weight Loss (lb)'] = df_s['Weight (lb)'].diff()
+    df_s = df_s.round(1)
+    df_s['Steps'] = df_s['Steps'].round(0)
+    df_s['Weight Loss (lb)'] = df_s['Weight (lb)'].diff().round(1)
 
     col_order = [
         'Weight (lb)', 'Weight Loss (lb)', 'Steps (tot)',
