@@ -18,18 +18,29 @@ def generate_plots(time_selector):
 	selected_time = dict_map_selected_time[time_selector]
 
 	_df = df[(df['Date'] >= np.datetime64(date_start_input)) & (df['Date'] <= np.datetime64(date_end_input))]
-	df_plot = _df.groupby(selected_time).agg(
-		{
-		'Calories':'mean', 
-		'Weight':'mean', 
-		'Steps':'mean', 
-		'Workout':'count'
+	df_plot = _df.groupby(selected_time).agg(**{
+		'Calories': pd.NamedAgg(column='Calories', aggfunc='mean'),
+		'Calories_std': pd.NamedAgg(column='Calories', aggfunc='std'),
+		'Weight': pd.NamedAgg(column='Weight', aggfunc='mean'),
+		'Weight_std': pd.NamedAgg(column='Weight', aggfunc='std'),
+		'Steps': pd.NamedAgg(column='Steps', aggfunc='mean'),
+		'Steps_std': pd.NamedAgg(column='Steps', aggfunc='std'),
+		'Workout': pd.NamedAgg(column='Workout', aggfunc='count')
 		}
 		).reset_index()
-	fig_weight_over_time = px.line(data_frame=df_plot.dropna(subset=[selected_time, 'Weight'], how='any'), x=selected_time, y='Weight').update_traces(mode='lines+markers')
-	fig_calories_over_time = px.line(data_frame=df_plot.dropna(subset=[selected_time, 'Calories'], how='any'), x=selected_time, y='Calories').update_traces(mode='lines+markers')
-	fig_steps_over_time = px.line(data_frame=df_plot.dropna(subset=[selected_time, 'Steps'], how='any'), x=selected_time, y='Steps').update_traces(mode='lines+markers')
-	fig_workouts_over_time = px.bar(data_frame=df_plot.dropna(subset=[selected_time, 'Workout'], how='any'), x=selected_time, y='Workout')
+
+	fig_weight_over_time = px.line(
+		data_frame=df_plot.dropna(subset=[selected_time, 'Weight'], how='any'), x=selected_time, y='Weight', error_y='Weight_std'
+		).update_traces(mode='lines+markers')
+	fig_calories_over_time = px.line(
+		data_frame=df_plot.dropna(subset=[selected_time, 'Calories'], how='any'), x=selected_time, y='Calories', error_y='Calories_std'
+		).update_traces(mode='lines+markers')
+	fig_steps_over_time = px.line(
+		data_frame=df_plot.dropna(subset=[selected_time, 'Steps'], how='any'), x=selected_time, y='Steps', error_y='Steps_std'
+		).update_traces(mode='lines+markers')
+	fig_workouts_over_time = px.bar(
+		data_frame=df_plot.dropna(subset=[selected_time, 'Workout'], how='any'), x=selected_time, y='Workout'
+		)
 
 	for fig in [fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time]:
 		fig.update_xaxes(showline=True, linewidth=2, linecolor='lightgray', mirror=True)
