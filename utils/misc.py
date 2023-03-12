@@ -43,3 +43,7 @@ def make_grid(n_cols, n_rows):
 			grid[i] = st.columns(n_rows)
 
 	return grid
+
+@st.cache_data
+def convert_df(df):
+    return df.to_csv().encode('utf-8')

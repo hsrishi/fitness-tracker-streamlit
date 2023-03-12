@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-from utils.misc import load_data
+from utils.misc import load_data, convert_df
 
 # Functions
 def get_summary_df():
@@ -53,3 +53,13 @@ if __name__ == "__main__":
     df_s = get_summary_df()
     st.dataframe(df_s, use_container_width=True)
     st.write('*Fields represent means unless otherwise noted.')
+
+    # Download button
+    csv_s = convert_df(df_s)
+    st.download_button(
+        label='Download as CSV',
+        data=csv_s,
+        file_name='fitness_summary.csv',
+        mime='test/csv'
+        )
+
