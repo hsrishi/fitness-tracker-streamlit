@@ -48,6 +48,26 @@ def generate_plots(time_selector):
 
 	return fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time, df_plot
 
+def generate_metrics(df):
+
+    col1, col2, col3 = st.columns(3, gap='large')
+    col1.metric(
+        label='Weight', 
+        value=f"{df['Weight'].dropna().iloc[-1]} lb", 
+        delta=f"{np.round(df['Weight'].dropna().iloc[-1]-df['Weight'].dropna().iloc[0], 1)} lb", 
+        delta_color='inverse'
+        )
+    col2.metric(
+        label='Calories (mean)', 
+        value=f"{int(df['Calories'].mean().round())}", 
+        )
+    col3.metric(
+        label='Steps (mean)', 
+        value=f"{int(df['Steps'].mean().round())}", 
+        )
+
+    return None
+
 
 # Prepare data
 df = load_data()
@@ -66,7 +86,7 @@ st.set_page_config(page_title='Overview', layout='wide')
 st.markdown("# Overview")
 st.sidebar.header("Overview")
 
-## widgets
+## Widgets
 colA, colB, colC = st.columns(3, gap='large')
 with colA:
 	time_selector = st.radio(
@@ -85,10 +105,13 @@ update_time = st.button('Update', on_click=update_time_selector,
 	kwargs={'time_selector':time_selector}
     )
 
-
-## figures
+## Figures and Data
 fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time, df_plot = generate_plots(st.session_state.time_selector)
 
+## Display Metrics
+generate_metrics(df_plot)
+
+## Display Figures
 col1, col2 = st.columns(2, gap='small')
 col3, col4 = st.columns(2, gap='small')
 
