@@ -46,7 +46,7 @@ def generate_plots(time_selector):
 		fig.update_xaxes(showline=True, linewidth=2, linecolor='lightgray', mirror=True)
 		fig.update_yaxes(showline=True, linewidth=2, linecolor='lightgray', mirror=True)
 
-	return fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time 
+	return fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time, df_plot
 
 
 # Prepare data
@@ -87,7 +87,7 @@ update_time = st.button('Update', on_click=update_time_selector,
 
 
 ## figures
-fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time = generate_plots(st.session_state.time_selector)
+fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time, df_plot = generate_plots(st.session_state.time_selector)
 
 col1, col2 = st.columns(2, gap='small')
 col3, col4 = st.columns(2, gap='small')
