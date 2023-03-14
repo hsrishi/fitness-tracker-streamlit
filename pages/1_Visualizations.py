@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.io as pio
 import collections
 
+from datetime import datetime
 from utils.misc import load_data, make_grid
 
 
@@ -131,7 +132,7 @@ with colA:
 		)
 with colB:
 	date_start_input = st.date_input(
-		label='Start Date', value=pd.to_datetime(df['Date']).min(), min_value=pd.to_datetime(df['Date']).min(), max_value=pd.to_datetime(df['Date']).max()
+		label='Start Date', value=datetime(2022,9,1), min_value=pd.to_datetime(df['Date']).min(), max_value=pd.to_datetime(df['Date']).max()
 		)
 with colC:
 	date_end_input = st.date_input(
