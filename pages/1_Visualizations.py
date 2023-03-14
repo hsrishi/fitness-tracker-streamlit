@@ -86,23 +86,23 @@ def generate_metrics(df):
 	    Fitness data
 	"""
 
-    col1, col2, col3 = st.columns(3, gap='large')
-    col1.metric(
+	col1, col2, col3 = st.columns(3, gap='large')
+	col1.metric(
         label='Weight', 
         value=f"{np.round(df['Weight'].dropna().iloc[-1], 1)} lb", 
         delta=f"{np.round(df['Weight'].dropna().iloc[-1]-df['Weight'].dropna().iloc[0], 1)} lb", 
         delta_color='inverse'
         )
-    col2.metric(
+	col2.metric(
         label='Calories (mean)', 
         value=f"{int(df['Calories'].mean().round())}", 
         )
-    col3.metric(
+	col3.metric(
         label='Steps (mean)', 
         value=f"{int(df['Steps'].mean().round())}", 
         )
 
-    return None
+	return None
 
 
 # Prepare data
