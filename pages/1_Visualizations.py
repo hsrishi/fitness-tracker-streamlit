@@ -53,7 +53,7 @@ def generate_metrics(df):
     col1, col2, col3 = st.columns(3, gap='large')
     col1.metric(
         label='Weight', 
-        value=f"{df['Weight'].dropna().iloc[-1]} lb", 
+        value=f"{np.round(df['Weight'].dropna().iloc[-1], 1)} lb", 
         delta=f"{np.round(df['Weight'].dropna().iloc[-1]-df['Weight'].dropna().iloc[0], 1)} lb", 
         delta_color='inverse'
         )
