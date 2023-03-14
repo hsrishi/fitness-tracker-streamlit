@@ -11,9 +11,37 @@ from utils.misc import load_data, make_grid
 
 # Functions
 def update_time_selector(time_selector):
+	"""
+	Set session state value for time_selector widget
+
+	Parameters
+	----------
+	time_selector : str, one of 'Day', 'Week', 'Month'
+	"""
 	st.session_state.time_selector = time_selector
 
 def generate_plots(time_selector):
+	"""
+	Generate time-series visualizations (weight, calories, steps, workouts) based on time_selector aggregation (e.g. Day, Week, Month)
+
+	Parameters
+	----------
+	time_selector : str, one of 'Day', 'Week', 'Month'
+	    Aggregation units for time-series plots
+
+	Returns
+	-------
+	fig_weight_over_time : plotly.graph_objects.Figure
+	    Figure depicting average weight (lb) over time based on aggregation unit
+	fig_calories_over_time : plotly.graph_objects.Figure
+	    Figure depicting average caloric intake over time based on aggregation unit
+	fig_steps_over_time : plotly.graph_objects.Figure
+	    Figure depicting average steps taken over time based on aggregation unit
+	fig_workouts_over_time : plotly.graph_objects.Figure
+	    Figure depicting average number of workouts completed over time based on aggregation unit
+	df_plot : pd.DataFrame
+	    Underlying data used to make figures
+	"""
 	dict_map_selected_time = {'Day': 'Date', 'Week': 'Week', 'Month': 'Month-Year'}
 	selected_time = dict_map_selected_time[time_selector]
 
@@ -49,6 +77,14 @@ def generate_plots(time_selector):
 	return fig_weight_over_time, fig_calories_over_time, fig_steps_over_time, fig_workouts_over_time, df_plot
 
 def generate_metrics(df):
+	"""
+	Generate Weight, Calories, Steps metrics as 1 x 3 metric display
+
+	Parameters
+	----------
+	df : pd.DataFrame
+	    Fitness data
+	"""
 
     col1, col2, col3 = st.columns(3, gap='large')
     col1.metric(
