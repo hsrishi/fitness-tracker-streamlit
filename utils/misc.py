@@ -55,7 +55,7 @@ def load_file_from_s3(bucket_name: str, file_name: str) -> bytes:
 		st.error(f"File {file_name} does not exist in bucket {bucket_name}.")
 		raise
 	except Exception as e:
-		st.error("An error occurred while try to load data from s3: {e}")
+		st.error(f"An error occurred while try to load data from s3: {e}")
 		raise
 	
 	return data
