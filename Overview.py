@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-from utils.misc import load_data, convert_df
+from utils.misc import load_data_s3, convert_df
 
 # Functions
 def get_summary_df():
@@ -11,7 +11,7 @@ def get_summary_df():
     Prepare summary dataframe with weekly stats
     """
 
-    df = load_data()
+    df = load_data_s3('fitness-data-hr', 'fitness_data.csv')
 
     df_s = df.groupby(['Week']).agg(**{
         'Weight': pd.NamedAgg(column='Weight', aggfunc='mean'),

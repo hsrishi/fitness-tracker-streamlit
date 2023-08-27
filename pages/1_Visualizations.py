@@ -7,7 +7,7 @@ import plotly.io as pio
 import collections
 
 from datetime import datetime
-from utils.misc import load_data, make_grid
+from utils.misc import load_data_s3, make_grid
 
 
 # Functions
@@ -107,7 +107,7 @@ def generate_metrics(df):
 
 
 # Prepare data
-df = load_data()
+df = load_data_s3('fitness-data-hr', 'fitness_data.csv')
 df_workouts_per_week = df.groupby('Week').agg({'Workout':'count'}).reset_index()
 
 list_exercises = ','.join(df['Workout'].dropna().to_list()).replace(' ','').split(',')

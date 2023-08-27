@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 
-from utils.misc import load_data, convert_df
+from utils.misc import load_data_s3, convert_df
 
 # Content
 st.set_page_config(page_title="Raw Data")
@@ -10,7 +10,7 @@ st.set_page_config(page_title="Raw Data")
 st.markdown("# Raw Data")
 st.sidebar.header("Raw Data")
 
-df = load_data()
+df = load_data_s3('fitness-data-hr', 'fitness_data.csv')
 st.dataframe(df, use_container_width=True)
 
 # Download button
