@@ -1,4 +1,5 @@
 import streamlit as st
+import boto3
 import pandas as pd
 
 from datetime import datetime
@@ -23,6 +24,41 @@ def load_data():
 	# df['Month-Year'] = pd.to_datetime(df['Date']).dt.to_period('M').astype('str')
 
 	return df
+
+def load_file_from_s3(bucket_name: str, file_name: str) -> bytes:
+	"""
+	Load file from an s3 bucket
+
+	Parameters
+	----------
+	bucket_name : str
+	    Name of s3 bucket
+	file_name : str
+		Name of file in s3 bucket
+	
+	Returns
+	-------
+	data : bytes
+		Bytes of data from s3 bucket
+	"""
+
+	s3 = boto3.client('s3')
+
+	try:
+		obj = s3.get_object(Bucket=bucket_name, Key=file_name)
+		data = obj['Body'].read()
+	except s3.exceptions.NoSuchBucket as e:
+		st.error(f"Bucket {bucket_name} does not exist.")
+		raise
+	except s3.exceptions.NoSuchKey as e:
+		st.error(f"File {file_name} does not exist in bucket {bucket_name}.")
+		raise
+	except Exception as e:
+		st.error("An error occurred while try to load data from s3: {e}")
+		raise
+	
+	return data
+
 
 def make_grid(n_cols, n_rows):
 	"""
