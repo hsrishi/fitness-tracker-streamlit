@@ -103,7 +103,39 @@ def read_file_as_df(data: bytes, file_name: str) -> pd.DataFrame:
 		raise Exception(f"File type {file_type} not supported.")
 
 	return df
-		
+
+
+def load_data_s3(bucket_name: str, file_name: str) -> pd.DataFrame:
+	"""
+	Wrapper function for loading fitness data from s3 bucket and formatting table
+
+	Parameters
+	----------
+	bucket_name : str
+		Name of s3 bucket
+	file_name : str
+		Name of file in s3 bucket
+	
+	Returns
+	-------
+	df : pd.DataFrame
+		Dataframe of data
+	
+	Example
+	-------
+	>>> df = load_data_s3('fitness-data-hr', 'fitness_data.csv')
+	"""
+
+	data = load_file_from_s3(bucket_name, file_name)
+	df = read_file_as_df(data, file_name)
+
+	df = df.drop(columns=[c for c in df.columns if c.startswith('Unnamed: ')])  # remove empty non-data columns
+	df['Date'] = pd.to_datetime(df['Date']) # .astype(datetime)  # , format="%Y/%m/%d"
+	df['Week'] = df['Week'].fillna(method='ffill')
+	df['Month-Year'] = df['Date'].dt.to_period('M').astype('str')
+
+	return df
+
 
 def make_grid(n_cols, n_rows):
 	"""
