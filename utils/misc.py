@@ -3,6 +3,7 @@ import boto3
 import pandas as pd
 
 from datetime import datetime
+from io import BytesIO
 
 
 def load_data():
@@ -59,6 +60,50 @@ def load_file_from_s3(bucket_name: str, file_name: str) -> bytes:
 	
 	return data
 
+
+def read_file_as_df(data: bytes, file_name: str) -> pd.DataFrame:
+	"""
+	Read file (passed as bytes) as a pandas dataframe
+
+	Parameters
+	----------
+	data : bytes
+	    Bytes of data to read into dataframe
+	file_name : str
+		Name of file
+	
+	Returns
+	-------
+	df : pd.DataFrame
+		Dataframe of data
+	"""
+
+	file_type = file_name.split('.')[-1]
+
+	if file_type == 'csv':
+		try:
+			df = pd.read_csv(BytesIO(data))
+		except Exception as e:
+			st.error(f"An error occurred while trying to read file {file_name} as a csv: {e}")
+			raise
+	elif file_type in ['xls', 'xlsx']:
+		try:
+			df = pd.read_excel(BytesIO(data))
+		except Exception as e:
+			st.error(f"An error occurred while trying to read file {file_name} as an excel file: {e}")
+			raise
+	elif file_type in ['txt']:
+		try:
+			df = pd.read_table(BytesIO(data))
+		except Exception as e:
+			st.error(f"An error occurred while trying to read file {file_name} as a text file: {e}")
+			raise
+	else:
+		st.error(f"File type {file_type} not supported.")
+		raise Exception(f"File type {file_type} not supported.")
+
+	return df
+		
 
 def make_grid(n_cols, n_rows):
 	"""
