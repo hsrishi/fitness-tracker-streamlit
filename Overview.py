@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 
 from utils.misc import load_data_s3, convert_df
+from langchain.llms import OpenAI
+
 
 # Functions
 def get_summary_df():
@@ -39,6 +41,15 @@ def get_summary_df():
     return df_s
 
 
+def generate_response(input_text):
+    """
+    Generate response from OpenAI
+    """
+
+    llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
+    st.info(llm(input_text))
+
+
 if __name__ == "__main__":
     st.set_page_config(
         page_title="Fitness Tracker",
@@ -49,6 +60,7 @@ if __name__ == "__main__":
     title = st.title("Fitness Tracker")
     
     st.sidebar.success("Select a section from above.")
+    openai_api_key = st.sidebar.text_input('OpenAI API Key')
 
     # Prepare data
     df_s = get_summary_df()
@@ -63,4 +75,13 @@ if __name__ == "__main__":
         file_name='fitness_summary.csv',
         mime='test/csv'
         )
+    
+    # LLM chat interface
+    with st.form('my_form'):
+        text = st.text_area('Enter text:', 'Ask a question...')
+        submitted = st.form_submit_button('Submit')
+        if not openai_api_key.startswith('sk-'):
+            st.warning('Please enter an OpenAI API key!', icon='⚠')
+        if submitted and openai_api_key.startswith('sk-'):
+            generate_response(text)
 
