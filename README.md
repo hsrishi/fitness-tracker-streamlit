@@ -3,6 +3,12 @@
 ## 💡 About
 I'm a data nerd and fitness enthusiast at heart, so the opportunity to optimize my nutrition and training through my own data has always excited me. Yet despite having tracked results in apps like ``MyFitnessPal``, ``Crossfit btwb``, ``Stronglifts 5x5``, and ``Apple Health`` since 2013, I've always been disappointed by the lack of integration and limited insights among these apps. That's why I decided to create a personal app to show me the insights I want from my own fitness data.
 
+
+<div align="center">
+ <img src="./assets/fitness-tracker-demo.gif"/>
+</div>
+
+
 ## 🚀 Features
 I've kept the app pretty simple as it's for personal use:
 * **Data Sources**: Integrate data from ``MyFitnessPal`` (nutrition), ``Crossfit btwb`` (workouts), and ``Apple Health`` (steps). A preprocessed version of data collated from each of these data sources is pulled from an ``S3`` bucket.
